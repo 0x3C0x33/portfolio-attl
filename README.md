@@ -1,75 +1,21 @@
-# React + TypeScript + Vite
+# 💻 Personal Portfolio - Windows XP Edition
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive, retro-themed personal portfolio built to mimic the classic Windows XP desktop environment. This project serves as a creative and functional presentation of my software development journey, technical skills, and active projects. 
 
-Currently, two official plugins are available:
+Instead of a traditional static website, visitors can interact with a desktop interface, open draggable windows, and explore my work through a nostalgic UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Built With
 
-## React Compiler
+* **[React](https://reactjs.org/)** - UI Library
+* **[TypeScript](https://www.typescriptlang.org/)** - Static Typing
+* **[Vite](https://vitejs.dev/)** - Frontend Tooling
+* **[xp.css](https://botoxparty.github.io/XP.css/)** - Windows XP CSS Framework
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📂 Featured Content
 
-## Expanding the ESLint configuration
+Inside this virtual desktop, you will find information about my core projects and infrastructure, including:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+* **HemoBrutal:** A desktop application built with Tauri and React.
+* **Homelab & Infrastructure:** Details on my personal server architecture utilizing Proxmox, TrueNAS SCALE, Docker, and Cloudflare networking.
+* **AI & Emergent Tech:** Explorations and implementations involving the Model Context Protocol (MCP) and autonomous AI coding agents.
+* **Tech Stack:** My technical proficiency across backend, systems, and DevOps environments.
