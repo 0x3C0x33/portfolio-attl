@@ -13,9 +13,4 @@ Instead of a traditional static website, visitors can interact with a desktop in
 
 ## 📂 Featured Content
 
-Inside this virtual desktop, you will find information about my core projects and infrastructure, including:
-
-* **HemoBrutal:** A desktop application built with Tauri and React.
-* **Homelab & Infrastructure:** Details on my personal server architecture utilizing Proxmox, TrueNAS SCALE, Docker, and Cloudflare networking.
-* **AI & Emergent Tech:** Explorations and implementations involving the Model Context Protocol (MCP) and autonomous AI coding agents.
-* **Tech Stack:** My technical proficiency across backend, systems, and DevOps environments.
+Inside this virtual desktop, you will find information about my core projects and infrastructure.
