@@ -6,3 +6,13 @@ export interface AppIcon {
   iconUrl: string;
   onOpen?: () => void; // Función opcional que se ejecutará al hacer doble clic
 }
+
+// Nueva interfaz para las ventanas activas en la barra de tareas
+export interface WindowItem {
+  id: string;
+  title: string;
+  iconUrl: string;
+  isOpen: boolean;
+  isMinimized: boolean;
+  isFocused: boolean;
+}
