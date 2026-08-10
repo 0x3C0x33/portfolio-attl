@@ -1,14 +1,23 @@
 // src/components/layout/Taskbar.tsx
 import { useState } from 'react';
 import { SystemClock } from '../ui/SystemClock';
+import { VolumeControl } from '../ui/VolumeControl';
 import type { WindowItem } from '../../types';
+import "xp.css/dist/XP.css";
 
 interface TaskbarProps {
   windows?: WindowItem[];
   onToggleWindow?: (id: string) => void;
+  onOpenCredits?: () => void;
+  volume?: number;
+  onVolumeChange?: (val: number) => void;
 }
 
-export function Taskbar({ windows = [], onToggleWindow }: TaskbarProps) {
+export function Taskbar({
+  windows = [],
+  onToggleWindow,
+  onOpenCredits,
+}: TaskbarProps) {
   const [isStartOpen, setIsStartOpen] = useState(false);
 
   return (
@@ -56,18 +65,8 @@ export function Taskbar({ windows = [], onToggleWindow }: TaskbarProps) {
           inicio
         </button>
 
-        {/* Pestañas de Ventanas en la Barra (Efecto Hold/Pressed al enfocar) */}
-        <div 
-          style={{ 
-            display: 'flex', 
-            gap: '2px', 
-            marginLeft: '6px', 
-            overflowX: 'auto', 
-            flex: 1, 
-            height: '100%', 
-            alignItems: 'center' 
-          }}
-        >
+        {/* Pestañas de Ventanas abiertas */}
+        <div style={{ display: 'flex', gap: '2px', marginLeft: '6px', overflowX: 'auto', flex: 1, height: '100%', alignItems: 'center' }}>
           {windows.map((win) => {
             if (!win.isOpen) return null;
             const isHold = win.isFocused && !win.isMinimized;
@@ -88,7 +87,6 @@ export function Taskbar({ windows = [], onToggleWindow }: TaskbarProps) {
                   color: 'white',
                   border: '1px solid #0a246a',
                   borderRadius: '2px',
-                  // Estilo cuando está en "hold" (presionada / en foco)
                   background: isHold
                     ? 'linear-gradient(to bottom, #122f7a 0%, #1941a5 100%)'
                     : 'linear-gradient(to bottom, #3c82f0 0%, #2264e1 100%)',
@@ -97,31 +95,50 @@ export function Taskbar({ windows = [], onToggleWindow }: TaskbarProps) {
                     : 'inset 0 1px 0 rgba(255,255,255,0.3)',
                   cursor: 'pointer',
                   textAlign: 'left',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
                 }}
               >
                 <img src={win.iconUrl} alt="" style={{ width: '14px', height: '14px' }} />
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{win.title}</span>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{win.title}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Reloj */}
+      {/* System Tray (Iconos + Reloj) */}
       <div
         style={{
           height: '100%',
           display: 'flex',
           alignItems: 'center',
+          gap: '6px',
           background: 'linear-gradient(to bottom, #0f80d6 0%, #0b62ba 50%, #0950a3 100%)',
           borderLeft: '1px solid #094080',
           boxShadow: 'inset 1px 0 2px rgba(0,0,0,0.2)',
-          paddingRight: '6px',
+          padding: '0 8px',
         }}
       >
+        {/* Control de Volumen */}
+        <VolumeControl />
+
+        {/* Icono de Créditos / Agradecimientos */}
+        <button
+          onClick={onOpenCredits}
+          title="Agradecimientos"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            padding: '2px 4px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <span style={{ fontSize: '13px' }}>📜</span>
+        </button>
+
+        {/* Reloj */}
         <SystemClock />
       </div>
     </footer>

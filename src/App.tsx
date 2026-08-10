@@ -23,7 +23,15 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
     isOpen: false,
     isMinimized: false,
     isFocused: false,
-  }
+  },
+  credits: {
+    id: 'credits',
+    title: 'Agradecimientos.txt',
+    iconUrl: '/icons/folder.png',
+    isOpen: false,
+    isMinimized: false,
+    isFocused: false,
+  },
 };
 
 export default function App() {
@@ -50,8 +58,15 @@ export default function App() {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', overflow: 'hidden', position: 'relative' }}>
       <Bootscreen bootState={bootState} />
       <Desktop icons={desktopIcons} />
-      <WindowManager windows={windows} onClose={closeWindow} onMinimize={minimizeWindow} />
-      <Taskbar windows={windowList} onToggleWindow={toggleWindow} />
+      <WindowManager windows={windows} 
+        onClose={closeWindow} 
+        onMinimize={minimizeWindow} 
+      />
+      <Taskbar
+        windows={windowList}
+        onToggleWindow={toggleWindow}
+        onOpenCredits={() => openWindow('credits')}
+      />
     </div>
   );
 }

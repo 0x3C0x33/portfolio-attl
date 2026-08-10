@@ -2,7 +2,8 @@
 import { Window } from '../ui/Window';
 import type { WindowItem } from '../../types';
 import { AboutWindow } from './AboutWindow';
-import { Hemobrutal } from './Hemobrutal';
+import { Hemobrutal } from './HemobrutalWindow';
+import { CreditsWindow } from './CreditsWindow';
 
 interface WindowManagerProps {
   windows: Record<string, WindowItem>;
@@ -38,6 +39,19 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           <Hemobrutal />
         </Window>
       )}
+
+      <Window
+          title={windows['credits'].title}
+          iconUrl={windows['credits'].iconUrl}
+          isOpen={windows['credits'].isOpen}
+          isMinimized={windows['credits'].isMinimized}
+          onClose={() => onClose('credits')}
+          onMinimize={() => onMinimize('credits')}
+          defaultWidth={420}
+          defaultHeight={280}
+        >
+          <CreditsWindow />
+        </Window>
     </>
   );
 }
