@@ -1,5 +1,6 @@
 // src/components/ui/VolumeControl.tsx
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect} from "react";
+import type { ChangeEvent } from "react";
 import "xp.css/dist/XP.css";
 
 export function VolumeControl() {
@@ -27,22 +28,33 @@ export function VolumeControl() {
     };
   }, [isOpen]);
 
-  // Handler sencillo leyendo directamente la referencia del input
-  const handleSliderInput = () => {
-    setLastVolume(volume);
-    setVolume(rangeRef.current!.valueAsNumber);
+  const handleSliderInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const newVolume = event.target.valueAsNumber;
+
+    if (newVolume > 0) {
+      setLastVolume(newVolume);
+    }
+    setVolume(newVolume);
+    audioSearch(newVolume);
   };
 
-  // Botón para alternar entre Mute (0) y el valor anterior
   const handleToggleMute = () => {
     if (volume > 0) {
+      setLastVolume(volume);
       setVolume(0);
-      rangeRef.current!.valueAsNumber = 0;
+      audioSearch(0);
     } else {
-      setVolume(lastVolume);
-      rangeRef.current!.valueAsNumber = lastVolume;
+      const restoredVolume = lastVolume > 0 ? lastVolume : 80;
+      setVolume(restoredVolume);
+      audioSearch(restoredVolume);
     }
   };
+
+  function audioSearch(volumeValue = volume) {
+    document.querySelectorAll<HTMLMediaElement>("audio, video").forEach((media) => {
+      media.volume = volumeValue / 100;
+    });
+  }
 
   return (
     <div
@@ -102,8 +114,7 @@ export function VolumeControl() {
                 min="0"
                 max="100"
                 step="1"
-                defaultValue={volume}
-                onInput={handleSliderInput}
+                value={volume}
                 onChange={handleSliderInput}
               />
             </div>
