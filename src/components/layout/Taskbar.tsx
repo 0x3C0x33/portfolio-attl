@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { SystemClock } from '../ui/SystemClock';
 import { VolumeControl } from '../ui/VolumeControl';
 import type { WindowItem } from '../../types';
-import "xp.css/dist/XP.css";
 
 interface TaskbarProps {
   windows?: WindowItem[];
@@ -133,6 +132,7 @@ export function Taskbar({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            minWidth: '0px',
           }}
         >
           <span style={{ fontSize: '13px' }}>📜</span>
