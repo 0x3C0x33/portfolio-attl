@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { SystemClock } from '../ui/SystemClock';
 import { VolumeControl } from '../ui/VolumeControl';
 import type { WindowItem } from '../../types';
+import { WallpaperSelector } from '../ui/WallpaperSelector';
 
 interface TaskbarProps {
   windows?: WindowItem[];
@@ -10,12 +11,16 @@ interface TaskbarProps {
   onOpenCredits?: () => void;
   volume?: number;
   onVolumeChange?: (val: number) => void;
+  currentWallpaper: string;
+  onSelectWallpaper: (url: string) => void;
 }
 
 export function Taskbar({
   windows = [],
   onToggleWindow,
   onOpenCredits,
+  currentWallpaper,
+  onSelectWallpaper,
 }: TaskbarProps) {
   const [isStartOpen, setIsStartOpen] = useState(false);
 
@@ -61,7 +66,7 @@ export function Taskbar({
           }}
         >
           <span style={{ fontSize: '15px', fontStyle: 'normal' }}>💻</span>
-          inicio
+          Inicio
         </button>
 
         {/* Pestañas de Ventanas abiertas */}
@@ -119,6 +124,12 @@ export function Taskbar({
       >
         {/* Control de Volumen */}
         <VolumeControl />
+
+        {/* Selector de Fondo de Pantalla */}
+        <WallpaperSelector
+          currentWallpaper={currentWallpaper}
+          onSelectWallpaper={onSelectWallpaper}
+        />
 
         {/* Icono de Créditos / Agradecimientos */}
         <button
