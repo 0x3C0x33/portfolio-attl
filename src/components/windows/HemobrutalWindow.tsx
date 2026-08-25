@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 export function HemobrutalWindow() {
-  const [selectedOption, setSelectedOption] = useState<"about" | "project" | "tech">("about");
+  const [selectedOption, setSelectedOption] = useState<"about" | "project" | "desktop_stickers">("about");
 
   return (
     <div
@@ -102,20 +102,20 @@ export function HemobrutalWindow() {
           </button>
 
           <button
-            onClick={() => setSelectedOption("tech")}
+            onClick={() => setSelectedOption("desktop_stickers")}
             style={{
               background: "transparent",
               border: "none",
-              color: selectedOption === "tech" ? "#ff4d4d" : "#ccc",
+              color: selectedOption === "desktop_stickers" ? "#ff4d4d" : "#ccc",
               textAlign: "left",
               cursor: "pointer",
               fontSize: "12px",
               fontWeight: "bold",
               fontFamily: "inherit",
-              textShadow: selectedOption === "tech" ? "0 0 5px #ff0000" : "none",
+              textShadow: selectedOption === "desktop_stickers" ? "0 0 5px #ff0000" : "none",
             }}
           >
-            {selectedOption === "tech" ? "► TECH STACK" : "  TECH STACK"}
+            {selectedOption === "desktop_stickers" ? "► DESKTOP STICKERS" : "  DESKTOP STICKERS"}
           </button>
         </div>
 
@@ -166,17 +166,17 @@ export function HemobrutalWindow() {
             </div>
           )}
 
-          {selectedOption === "tech" && (
+          {selectedOption === "desktop_stickers" && (
             <div>
               <h3 style={{ margin: "0 0 8px 0", color: "#ff4d4d", fontSize: "13px" }}>
-                [ ARSENAL TÉCNICO ]
+                [ DESKTOP STICKERS ] (2026)
               </h3>
-              <ul style={{ margin: 0, paddingLeft: "16px" }}>
-                <li><strong>Motor / Framework:</strong> Tauri & React</li>
-                <li><strong>Lenguajes:</strong> TypeScript, C#, Go</li>
-                <li><strong>Plataforma:</strong> Windows / Desktop</li>
-                <li><strong>Game Dev:</strong> Godot / Pixel Art UI</li>
-              </ul>
+              <p style={{ margin: "0 0 8px 0" }}>
+                Una aplicación de escritorio ligera diseñada para colocar widgets, notas interactivas y stickers personalizados directamente en el entorno de trabajo del sistema operativo.
+              </p>
+              <p style={{ margin: 0, color: "#888", fontSize: "10px" }}>
+                * Desarrollado con Tauri + React para optimizar el consumo de recursos al máximo.
+              </p>
             </div>
           )}
         </div>
@@ -195,7 +195,8 @@ export function HemobrutalWindow() {
         }}
       >
         <span>PRESS [CLICK] TO SELECT</span>
-        <span>HEMOBRUTAL v0.5.0</span>
+        <span>PARA VOSOTROS JUGADORES</span>
+        <span>HEMOBRUTAL FOREVER</span>
       </div>
     </div>
   );
