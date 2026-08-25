@@ -2,7 +2,7 @@
 import { Window } from '../ui/Window';
 import type { WindowItem } from '../../types';
 import { AboutWindow } from './AboutWindow';
-import { Hemobrutal } from './HemobrutalWindow';
+import { HemobrutalWindow } from './HemobrutalWindow';
 import { CreditsWindow } from './CreditsWindow';
 
 interface WindowManagerProps {
@@ -36,7 +36,7 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           onClose={() => onClose('hemobrutal')}
           onMinimize={() => onMinimize('hemobrutal')}
         >
-          <Hemobrutal />
+          <HemobrutalWindow />
         </Window>
       )}
 
