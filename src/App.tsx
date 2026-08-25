@@ -12,7 +12,7 @@ import type { AppIcon, WindowItem } from './types';
 const INITIAL_WINDOWS: Record<string, WindowItem> = {
   about: {
     id: 'about',
-    title: 'Sobre_Mí.txt - Bloc de notas',
+    title: 'Sobre_Mí.cfg - Configuración',
     iconUrl: '/icons/User1.ico',
     isOpen: false,
     isMinimized: false,
@@ -53,7 +53,7 @@ export default function App() {
   const desktopIcons: AppIcon[] = [
     {
       id: 'about',
-      label: 'Sobre_Mí.txt',
+      label: 'Sobre_Mí.cfg',
       iconUrl: '/icons/User1.ico',
       onOpen: () => openWindow('about'),
     },

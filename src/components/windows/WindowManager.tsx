@@ -23,7 +23,7 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           onClose={() => onClose('about')}
           onMinimize={() => onMinimize('about')}
         >
-          <AboutWindow />
+          <AboutWindow onClose={() => onClose('about')}/>
         </Window>
       )}
 
