@@ -26,10 +26,18 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
     isMinimized: false,
     isFocused: false,
   },
+  server: {
+    id: 'server',
+    title: 'Servidor.bat - Script',
+    iconUrl: '/icons/Server.ico',
+    isOpen: false,
+    isMinimized: false,
+    isFocused: false,
+  },
   credits: {
     id: 'credits',
-    title: 'Agradecimientos.txt',
-    iconUrl: '/icons/folder.png',
+    title: 'Créditos.txt',
+    iconUrl: '/icons/List File.ico',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -56,6 +64,12 @@ export default function App() {
       label: 'Sobre_Mí.cfg',
       iconUrl: '/icons/User1.ico',
       onOpen: () => openWindow('about'),
+    },
+    {
+      id: 'server',
+      label: 'Servidor.bat',
+      iconUrl: '/icons/Server.ico',
+      onOpen: () => openWindow('server'),
     },
     {
       id: 'hemobrutal',

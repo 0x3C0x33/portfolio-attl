@@ -3,6 +3,7 @@ import { Window } from '../ui/Window';
 import type { WindowItem } from '../../types';
 import { AboutWindow } from './AboutWindow';
 import { HemobrutalWindow } from './HemobrutalWindow';
+import { ServerWindow } from './ServerWindow';
 import { CreditsWindow } from './CreditsWindow';
 
 interface WindowManagerProps {
@@ -39,6 +40,19 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           defaultHeight={400}
         >
           <HemobrutalWindow />
+        </Window>
+      )}
+
+      {windows['server'] && (
+        <Window
+          title={windows['server'].title}
+          iconUrl={windows['server'].iconUrl}
+          isOpen={windows['server'].isOpen}
+          isMinimized={windows['server'].isMinimized}
+          onClose={() => onClose('server')}
+          onMinimize={() => onMinimize('server')}
+        >
+          <ServerWindow />
         </Window>
       )}
 
