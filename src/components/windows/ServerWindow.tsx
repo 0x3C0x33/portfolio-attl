@@ -59,7 +59,7 @@ export function ServerWindow() {
           <br />
           • <strong style={{ color: "#ffffff" }}>RAM:</strong> 96 GB DDR3 ECC
           <br />
-          • <strong style={{ color: "#ffffff" }}>Storage:</strong> 21 TB HDD (Mechanical, RAID 6 Redundancy)
+          • <strong style={{ color: "#ffffff" }}>Storage:</strong> 24 TB HDD (Mechanical, RAID 6 Redundancy)
           <br />
           • <strong style={{ color: "#ffffff" }}>Setup:</strong> Hand-picked hardware & fully custom-configured
         </div>
