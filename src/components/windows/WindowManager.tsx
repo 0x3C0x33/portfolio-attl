@@ -35,6 +35,8 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           isMinimized={windows['hemobrutal'].isMinimized}
           onClose={() => onClose('hemobrutal')}
           onMinimize={() => onMinimize('hemobrutal')}
+          defaultWidth={600}
+          defaultHeight={400}
         >
           <HemobrutalWindow />
         </Window>
