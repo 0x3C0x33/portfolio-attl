@@ -134,7 +134,7 @@ export function Taskbar({
         {/* Icono de Créditos / Agradecimientos */}
         <button
           onClick={onOpenCredits}
-          title="Agradecimientos"
+          title="Créditos"
           style={{
             background: 'transparent',
             border: 'none',

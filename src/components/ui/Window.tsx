@@ -66,7 +66,7 @@ export function Window({
           className="window-body"
           style={{
             flex: 1,
-            margin: '8px',
+            margin: '0px',
             overflow: 'auto',
           }}
         >
