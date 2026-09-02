@@ -6,6 +6,7 @@ import { HemobrutalWindow } from './HemobrutalWindow';
 import { ServerWindow } from './ServerWindow';
 import { CreditsWindow } from './CreditsWindow';
 import { useState } from 'react';
+import { MyPageWindow } from './MyPageWindow';
 
 interface WindowManagerProps {
   windows: Record<string, WindowItem>;
@@ -69,6 +70,23 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
           onFocus={() => bringToFront('server')}
         >
           <ServerWindow />
+        </Window>
+      )}
+
+      {windows['mypage'] && (
+        <Window
+          title={windows['mypage'].title}
+          iconUrl={windows['mypage'].iconUrl}
+          isOpen={windows['mypage'].isOpen}
+          isMinimized={windows['mypage'].isMinimized}
+          onClose={() => onClose('mypage')}
+          onMinimize={() => onMinimize('mypage')}
+          zIndex={windowZIndexes['mypage'] || 10}
+          onFocus={() => bringToFront('mypage')}
+          defaultWidth={730}
+          defaultHeight={500}
+        >
+          <MyPageWindow />
         </Window>
       )}
 

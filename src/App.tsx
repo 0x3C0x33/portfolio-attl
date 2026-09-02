@@ -34,6 +34,14 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
     isMinimized: false,
     isFocused: false,
   },
+  mypage: {
+    id: 'mypage',
+    title: 'Portfolio ATTL - Web',
+    iconUrl: '/icons/My Network Places.ico',
+    isOpen: false,
+    isMinimized: false,
+    isFocused: false,
+  },
   credits: {
     id: 'credits',
     title: 'Créditos.txt',
@@ -70,6 +78,12 @@ export default function App() {
       label: 'Servidor.bat',
       iconUrl: '/icons/Server.ico',
       onOpen: () => openWindow('server'),
+    },
+    {
+      id: 'mypage',
+      label: 'MiWeb.html',
+      iconUrl: '/icons/My Network Places.ico',
+      onOpen: () => openWindow('mypage'),
     },
     {
       id: 'hemobrutal',
