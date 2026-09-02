@@ -88,7 +88,7 @@ export function VolumeControl() {
           style={{
             position: "absolute",
             bottom: "28px",
-            left: "-28px",
+            right: "-10px",
             padding: "8px 12px",
             display: "flex",
             flexDirection: "column",

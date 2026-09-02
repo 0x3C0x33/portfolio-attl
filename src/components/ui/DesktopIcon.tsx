@@ -10,9 +10,18 @@ export function DesktopIcon({ icon }: DesktopIconProps) {
   // Estado local para saber si el icono está "marcado"
   const [isSelected, setIsSelected] = useState(false);
 
+  const handleClick = () => {
+    if (isSelected && icon.onOpen) {
+      // Si ya estaba seleccionado y se vuelve a pulsar (útil en móviles), abre la ventana
+      icon.onOpen();
+    } else {
+      setIsSelected(true);
+    }
+  };
+
   return (
     <div
-      onClick={() => setIsSelected(true)}
+      onClick={handleClick}
       onBlur={() => setIsSelected(false)} // Si hacemos clic fuera, se desmarca
       onDoubleClick={icon.onOpen}
       tabIndex={0} // Necesario para que el onBlur funcione en un div
@@ -26,6 +35,7 @@ export function DesktopIcon({ icon }: DesktopIconProps) {
         padding: '4px',
         cursor: 'pointer',
         outline: 'none',
+        touchAction: 'manipulation',
         // Estilos condicionales: si está seleccionado, se pone azul
         backgroundColor: isSelected ? 'rgba(0, 88, 238, 0.3)' : 'transparent',
         border: isSelected ? '1px dotted rgba(255, 255, 255, 0.7)' : '1px solid transparent',

@@ -39,25 +39,76 @@ export function Window({
     height: typeof window !== 'undefined' ? window.innerHeight : 768,
   });
 
-  // Guardamos las dimensiones y posición previas para restaurar
-  const [bounds, setBounds] = useState({
-    x: 100,
-    y: 80,
-    width: defaultWidth,
-    height: defaultHeight,
+  // Guardamos las dimensiones y posición previas calculadas de forma responsiva
+  const [bounds, setBounds] = useState(() => {
+    const screenW = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    const screenH = typeof window !== 'undefined' ? window.innerHeight : 768;
+    const isMobile = screenW <= 640;
+
+    const calcWidth = isMobile
+      ? Math.min(screenW - 8, defaultWidth)
+      : Math.min(defaultWidth, screenW - 40);
+
+    const calcHeight = isMobile
+      ? Math.min(screenH - taskbarHeight - 12, defaultHeight)
+      : Math.min(defaultHeight, screenH - taskbarHeight - 40);
+
+    const calcX = isMobile
+      ? Math.max(4, Math.floor((screenW - calcWidth) / 2))
+      : Math.max(20, Math.min(80, screenW - calcWidth - 20));
+
+    const calcY = isMobile
+      ? 6
+      : Math.max(20, Math.min(60, screenH - taskbarHeight - calcHeight - 20));
+
+    return {
+      x: calcX,
+      y: calcY,
+      width: Math.max(260, calcWidth),
+      height: Math.max(140, calcHeight),
+    };
   });
 
-  // Escuchar cambios de tamaño de la ventana del navegador
+  // Escuchar cambios de tamaño de la ventana del navegador (orientación / resize)
   useEffect(() => {
     const handleResize = () => {
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+      const isMobile = newWidth <= 640;
+
       setScreenSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: newWidth,
+        height: newHeight,
+      });
+
+      setBounds((prev) => {
+        const maxWidth = isMobile ? newWidth - 8 : newWidth - 20;
+        const maxHeight = newHeight - taskbarHeight - (isMobile ? 12 : 20);
+
+        const clampedWidth = Math.max(260, Math.min(prev.width, maxWidth));
+        const clampedHeight = Math.max(140, Math.min(prev.height, maxHeight));
+
+        const clampedX = Math.max(
+          isMobile ? 4 : 10,
+          Math.min(prev.x, newWidth - clampedWidth - (isMobile ? 4 : 10))
+        );
+        const clampedY = Math.max(
+          isMobile ? 6 : 10,
+          Math.min(prev.y, newHeight - taskbarHeight - clampedHeight - 10)
+        );
+
+        return {
+          x: clampedX,
+          y: clampedY,
+          width: clampedWidth,
+          height: clampedHeight,
+        };
       });
     };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [taskbarHeight]);
 
   if (!isOpen || isMinimized) return null;
 
@@ -99,12 +150,14 @@ export function Window({
       }}
       disableDragging={isMaximized}
       enableResizing={!isMaximized}
-      minWidth={280}
-      minHeight={150}
+      minWidth={Math.min(260, screenSize.width - 8)}
+      minHeight={140}
       onMouseDown={onFocus}
       dragHandleClassName="title-bar"
+      cancel=".title-bar-controls, .title-bar-controls *, button, input, select, textarea, .window-body"
       style={{
         zIndex: zIndex,
+        touchAction: 'none',
       }}
     >
       <div
@@ -120,22 +173,87 @@ export function Window({
       >
         <div
           className="title-bar"
-          style={{ cursor: isMaximized ? 'default' : 'move', userSelect: 'none' }}
+          style={{
+            cursor: isMaximized ? 'default' : 'move',
+            userSelect: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '3px 4px',
+          }}
           onDoubleClick={toggleMaximize}
         >
-          <div className="title-bar-text" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            {iconUrl && <img src={iconUrl} alt="" style={{ width: '16px', height: '16px' }} />}
-            <span>{title}</span>
+          <div
+            className="title-bar-text"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              flex: 1,
+              paddingRight: '6px',
+            }}
+          >
+            {iconUrl && <img src={iconUrl} alt="" style={{ width: '16px', height: '16px', flexShrink: 0 }} />}
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
           </div>
-          <div className="title-bar-controls">
-            <button aria-label="Minimize" onClick={onMinimize} />
+
+          <div
+            className="title-bar-controls"
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexShrink: 0,
+              gap: '2px',
+            }}
+          >
+            <button
+              aria-label="Minimize"
+              onClick={(e) => {
+                e.stopPropagation();
+                onMinimize();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onMinimize();
+              }}
+              style={{ touchAction: 'manipulation' }}
+            />
             <button
               aria-label={isMaximized ? 'Restore' : 'Maximize'}
-              onClick={toggleMaximize}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleMaximize();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMaximize();
+              }}
+              style={{ touchAction: 'manipulation' }}
             />
-            <button aria-label="Close" onClick={onClose} />
+            <button
+              aria-label="Close"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onClose();
+              }}
+              style={{ touchAction: 'manipulation' }}
+            />
           </div>
         </div>
+
         <div
           className="window-body"
           style={{

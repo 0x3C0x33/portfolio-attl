@@ -60,8 +60,8 @@ export function WallpaperSelector({
           style={{
             position: "absolute",
             bottom: "28px",
-            left: "-180px",
-            width: "240px",
+            right: "0px",
+            width: "min(240px, calc(100vw - 16px))",
             display: "flex",
             flexDirection: "column",
             gap: "8px",

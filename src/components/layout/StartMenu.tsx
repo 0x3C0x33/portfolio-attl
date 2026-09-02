@@ -1,5 +1,5 @@
 // src/components/layout/StartMenu.tsx
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "xp.css/dist/XP.css";
 
 interface StartMenuProps {
@@ -9,14 +9,38 @@ interface StartMenuProps {
 
 export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar al hacer clic fuera del menú de inicio
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div style={{ position: "relative", height: "100%" }}>
+    <div ref={menuRef} style={{ position: "relative", height: "100%", zIndex: 100000 }}>
       {/* 1. DESPLEGABLE DEL MENÚ DE INICIO */}
       {isOpen && (
         <div
           style={{
-            width: "380px",
+            width: "min(380px, calc(100vw - 8px))",
+            maxHeight: "calc(100vh - 40px)",
             height: "460px",
             backgroundColor: "#4282d6",
             borderTopLeftRadius: "5px",
@@ -31,7 +55,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
             position: "absolute",
             bottom: "100%", // Se despliega justo encima del botón
             left: "0px",
-            zIndex: 99999,
+            zIndex: 100001,
           }}
         >
           {/* Cabecera: Avatar y Nombre */}
@@ -44,6 +68,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
               gap: "10px",
               padding: "0 12px",
               borderBottom: "2px solid #e59f37",
+              flexShrink: 0,
             }}
           >
             <div
@@ -58,6 +83,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexShrink: 0,
               }}
             >
               <img src="./images/vampire_epic_face.webp" alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -83,6 +109,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
               border: "1px solid #0a5fcf",
               borderTop: "none",
               borderBottom: "none",
+              minHeight: 0,
             }}
           >
             {/* Columna Izquierda (Aplicaciones) */}
@@ -153,6 +180,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
               gap: "12px",
               padding: "0 12px",
               borderTop: "1px solid #4282d6",
+              flexShrink: 0,
             }}
           >
             <button
@@ -170,6 +198,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
                 cursor: "pointer",
                 fontSize: "11px",
                 fontFamily: "inherit",
+                touchAction: "manipulation",
               }}
             >
               <div
@@ -207,6 +236,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
                 cursor: "pointer",
                 fontSize: "11px",
                 fontFamily: "inherit",
+                touchAction: "manipulation",
               }}
             >
               <div
@@ -235,7 +265,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
 
       {/* 2. BOTÓN INICIO (XP) */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
         style={{
           height: "100%",
           padding: "0 12px 0 8px",
@@ -256,6 +286,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
           boxShadow: isOpen
             ? "inset 1px 1px 2px #000"
             : "inset 0 1px 1px rgba(255,255,255,0.4)",
+          touchAction: "manipulation",
         }}
       >
         <span style={{ fontSize: "15px", fontStyle: "normal" }}>💻</span>
