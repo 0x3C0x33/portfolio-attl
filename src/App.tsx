@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Desktop } from './components/layout/Desktop';
 import { Taskbar } from './components/layout/Taskbar';
 import { Bootscreen } from './components/layout/Bootscreen';
+import { PowerScreen } from './components/layout/PowerScreen';
 import { WindowManager } from './components/windows/WindowManager';
 import { useWindowManager } from './hooks/useWindowManager';
 import { useBootSequence } from './hooks/useBootSequence';
@@ -55,7 +56,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
 export default function App() {
   const { windows, windowList, openWindow, toggleWindow, closeWindow, minimizeWindow } =
     useWindowManager(INITIAL_WINDOWS);
-  const bootState = useBootSequence(3000); // 3 segundos de carga
+  const { bootState, turnOn, turnOff } = useBootSequence(3000); // 3 segundos de carga
 
   const [wallpaper, setWallpaper] = useState<string>(() => {
     return localStorage.getItem('xp_wallpaper') || WALLPAPERS[0].url;
@@ -107,7 +108,27 @@ export default function App() {
         backgroundPosition: 'center',
       }}
     >
-      <Bootscreen bootState={bootState} />
+      {/* Fondo negro de seguridad: evita cualquier destello del escritorio durante el encendido y arranque */}
+      {(bootState === 'off' || bootState === 'booting') && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: '#000000',
+            zIndex: 99990,
+          }}
+        />
+      )}
+
+      {/* 1. Pantalla de encendido (Turn ON) cuando el PC está apagado */}
+      {bootState === 'off' && <PowerScreen onTurnOn={turnOn} />}
+
+      {/* 2. Pantalla de arranque Bootscreen */}
+      {(bootState === 'booting' || bootState === 'fading') && (
+        <Bootscreen bootState={bootState} />
+      )}
+
+      {/* 3. Entorno de Escritorio Windows XP */}
       <Desktop icons={desktopIcons} />
       <WindowManager 
         windows={windows} 
@@ -120,6 +141,7 @@ export default function App() {
         onOpenCredits={() => openWindow('credits')}
         currentWallpaper={wallpaper}
         onSelectWallpaper={handleSelectWallpaper}
+        onTurnOff={turnOff}
       />
     </div>
   );

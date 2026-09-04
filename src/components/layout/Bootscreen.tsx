@@ -31,7 +31,7 @@ export function Bootscreen({ bootState, durationMs = 3000 }: BootscreenProps) {
     return () => clearInterval(timer);
   }, [bootState, durationMs]);
 
-  if (bootState === "ready") return null;
+  if (bootState === "ready" || bootState === "off") return null;
 
   // Si ya no está en 'booting' (ej. 'fading'), nos aseguramos de que muestre el 100% de forma derivada
   const currentProgress = bootState !== "booting" ? 100 : Math.round(progress);
@@ -53,32 +53,54 @@ export function Bootscreen({ bootState, durationMs = 3000 }: BootscreenProps) {
         userSelect: "none",
       }}
     >
-      <div>
-        <img
-          src="/images/boot.webp"
-          alt="attl.dev Logo"
-          width="400"
-          height="240"
-          fetchPriority="high"
-          decoding="async"
-          style={{ width: "400px", height: "auto", marginBottom: "20px" }}
-        />
-      </div>
+      <style>{`
+        @keyframes bootContentFadeIn {
+          0% {
+            opacity: 0;
+            filter: brightness(0.7);
+          }
+          100% {
+            opacity: 1;
+            filter: brightness(1);
+          }
+        }
+      `}</style>
 
-      {/* Contenedor de la Progress Bar estilo XP */}
       <div
         style={{
-          width: "180px",
-          height: "14px",
-          padding: "2px",
-          overflow: "hidden",
-          position: "relative",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          animation: "bootContentFadeIn 0.75s ease-out forwards",
         }}
       >
-        <progress max="100" value={currentProgress} style={{ width: "100%" }}></progress>
+        <div>
+          <img
+            src="/images/boot.webp"
+            alt="attl.dev Logo"
+            width="400"
+            height="240"
+            fetchPriority="high"
+            decoding="async"
+            style={{ width: "400px", height: "auto", marginBottom: "20px" }}
+          />
+        </div>
+
+        {/* Contenedor de la Progress Bar estilo XP */}
+        <div
+          style={{
+            width: "180px",
+            height: "14px",
+            padding: "2px",
+            overflow: "hidden",
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <progress max="100" value={currentProgress} style={{ width: "100%" }}></progress>
+        </div>
       </div>
     </div>
   );

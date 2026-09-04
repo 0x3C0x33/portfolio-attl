@@ -43,13 +43,22 @@ export function CreditsWindow() {
         <div style={{ marginBottom: "12px" }}>
           <strong>[ AUDIO & EFECTOS DE SONIDO ]</strong>
           <br />
-          • Sonido de encendido / inicio:
+          • Sonido de inicio de Windows XP:
           <br />
           &nbsp;&nbsp;Autor: Johnmode
           <br />
           &nbsp;&nbsp;Fuente:{" "}
           <a href="https://freesound.org/people/Johnmode/" target="_blank" rel="noreferrer">
             https://freesound.org/people/Johnmode/
+          </a>
+          <br />
+          • Sonido de encendido de ordenador:
+          <br />
+          &nbsp;&nbsp;Autor: guitarguy1985
+          <br />
+          &nbsp;&nbsp;Fuente:{" "}
+          <a href="https://freesound.org/people/guitarguy1985/" target="_blank" rel="noreferrer">
+            https://freesound.org/people/guitarguy1985/
           </a>
         </div>
 

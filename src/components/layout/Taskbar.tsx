@@ -14,6 +14,7 @@ interface TaskbarProps {
   onVolumeChange?: (val: number) => void;
   currentWallpaper: string;
   onSelectWallpaper: (url: string) => void;
+  onTurnOff?: () => void;
 }
 
 export function Taskbar({
@@ -22,6 +23,7 @@ export function Taskbar({
   onOpenCredits,
   currentWallpaper,
   onSelectWallpaper,
+  onTurnOff,
 }: TaskbarProps) {
   return (
     <footer
@@ -46,7 +48,7 @@ export function Taskbar({
       <div style={{ flexShrink: 0, height: '100%', position: 'relative', overflow: 'visible', zIndex: 100000 }}>
         <StartMenu
           onLogOff={() => {}}
-          onTurnOff={() => {}}
+          onTurnOff={onTurnOff}
         />
       </div>
 

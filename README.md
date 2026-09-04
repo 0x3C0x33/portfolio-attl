@@ -22,7 +22,8 @@ This project utilizes the following open-source resources, libraries, and multim
 
 ### 🔊 Audio & Sound Effects
 
-* **Startup / Boot Sound:** [Johnmode](https://freesound.org/people/Johnmode/) on Freesound.
+* **Windows XP Startup Sound:** [Johnmode](https://freesound.org/people/Johnmode/) on Freesound.
+* **Computer Power-On Sound:** [guitarguy1985](https://freesound.org/people/guitarguy1985/) on Freesound.
 
 ### 🖼️ Wallpapers
 

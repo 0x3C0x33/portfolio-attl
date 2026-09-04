@@ -1,18 +1,28 @@
-// src/hooks/useBootSequence.ts
-import { useState, useEffect } from 'react';
+// src/hooks/useBootSequence.tsx
+import { useState, useEffect, useCallback } from 'react';
 
-export type BootState = 'booting' | 'fading' | 'ready';
+export type BootState = 'off' | 'booting' | 'fading' | 'ready';
 
 export function useBootSequence(bootDurationMs = 3000) {
-  const [bootState, setBootState] = useState<BootState>('booting');
+  const [bootState, setBootState] = useState<BootState>('off');
+
+  const turnOn = useCallback(() => {
+    setBootState('booting');
+  }, []);
+
+  const turnOff = useCallback(() => {
+    setBootState('off');
+  }, []);
 
   useEffect(() => {
+    if (bootState !== 'booting') return;
+
     // 1. Pasar de booting a fading tras el tiempo indicado (3s)
     const bootTimer = setTimeout(() => {
       setBootState('fading');
       const audio = new Audio('/sounds/boot.mp3');
       audio.play().catch(() => {
-        // Autoplay bloqueado por el navegador si el usuario no ha interactuado
+        // Fallback silencioso
       });
 
       // 2. Pasar a ready tras completar la animación de fade (1s)
@@ -24,7 +34,7 @@ export function useBootSequence(bootDurationMs = 3000) {
     }, bootDurationMs);
 
     return () => clearTimeout(bootTimer);
-  }, [bootDurationMs]);
+  }, [bootState, bootDurationMs]);
 
-  return bootState;
+  return { bootState, turnOn, turnOff };
 }
