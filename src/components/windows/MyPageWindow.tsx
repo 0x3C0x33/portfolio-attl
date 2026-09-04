@@ -212,7 +212,7 @@ export function MyPageWindow() {
           }}
         >
           <img
-            src="/icons/Earth (fixed).ico"
+            src="/icons/Earth (fixed).webp"
             alt="Web Icon"
             style={{ width: "14px", height: "14px", marginRight: "6px" }}
           />
@@ -949,7 +949,7 @@ export function MyPageWindow() {
               paddingLeft: "8px",
             }}
           >
-            <img src="/icons/Earth (fixed).ico" alt="Internet" style={{ width: "12px", height: "12px" }} />
+            <img src="/icons/Earth (fixed).webp" alt="Internet" style={{ width: "12px", height: "12px" }} />
             Internet | Zona protegida
           </span>
           <span style={{ borderLeft: "1px solid #999", paddingLeft: "8px" }}>

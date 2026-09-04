@@ -13,7 +13,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
   about: {
     id: 'about',
     title: 'Sobre_Mí.cfg - Configuración',
-    iconUrl: '/icons/User1.ico',
+    iconUrl: '/icons/User1.webp',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -21,7 +21,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
   hemobrutal: {
     id: 'hemobrutal',
     title: 'HemoBrutal.exe - Juego',
-    iconUrl: '/icons/Hearts.ico',
+    iconUrl: '/icons/Hearts.webp',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -29,7 +29,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
   server: {
     id: 'server',
     title: 'Servidor.bat - Script',
-    iconUrl: '/icons/Server.ico',
+    iconUrl: '/icons/Server.webp',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -37,7 +37,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
   mypage: {
     id: 'mypage',
     title: 'Portfolio ATTL - Web',
-    iconUrl: '/icons/My Network Places.ico',
+    iconUrl: '/icons/My Network Places.webp',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -45,7 +45,7 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
   credits: {
     id: 'credits',
     title: 'Créditos.txt',
-    iconUrl: '/icons/List File.ico',
+    iconUrl: '/icons/List File.webp',
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -70,25 +70,25 @@ export default function App() {
     {
       id: 'about',
       label: 'Sobre_Mí.cfg',
-      iconUrl: '/icons/User1.ico',
+      iconUrl: '/icons/User1.webp',
       onOpen: () => openWindow('about'),
     },
     {
       id: 'server',
       label: 'Servidor.bat',
-      iconUrl: '/icons/Server.ico',
+      iconUrl: '/icons/Server.webp',
       onOpen: () => openWindow('server'),
     },
     {
       id: 'mypage',
       label: 'MiWeb.html',
-      iconUrl: '/icons/My Network Places.ico',
+      iconUrl: '/icons/My Network Places.webp',
       onOpen: () => openWindow('mypage'),
     },
     {
       id: 'hemobrutal',
       label: 'HemoBrutal.exe',
-      iconUrl: '/icons/Hearts.ico',
+      iconUrl: '/icons/Hearts.webp',
       onOpen: () => openWindow('hemobrutal'),
     },
   ];
