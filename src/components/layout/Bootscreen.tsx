@@ -55,8 +55,12 @@ export function Bootscreen({ bootState, durationMs = 3000 }: BootscreenProps) {
     >
       <div>
         <img
-          src="/images/boot.png"
+          src="/images/boot.webp"
           alt="attl.dev Logo"
+          width="400"
+          height="240"
+          fetchPriority="high"
+          decoding="async"
           style={{ width: "400px", height: "auto", marginBottom: "20px" }}
         />
       </div>

@@ -229,67 +229,81 @@ export function useLivePerformance() {
   }, []);
 
   useEffect(() => {
+    const isSupported = (type: string) => {
+      return (
+        typeof PerformanceObserver !== 'undefined' &&
+        Array.isArray(PerformanceObserver.supportedEntryTypes) &&
+        PerformanceObserver.supportedEntryTypes.includes(type)
+      );
+    };
+
     // 1. Observador de LCP (Largest Contentful Paint)
     let lcpObserver: PerformanceObserver | null = null;
-    try {
-      lcpObserver = new PerformanceObserver((entryList) => {
-        const entries = entryList.getEntries();
-        const last = entries[entries.length - 1];
-        if (last) {
-          setMetrics((prev) => ({
-            ...prev,
-            lcp: Math.round(last.startTime),
-          }));
-        }
-      });
-      lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-    } catch {
-      // Navegador sin soporte para LCP observer
+    if (isSupported('largest-contentful-paint')) {
+      try {
+        lcpObserver = new PerformanceObserver((entryList) => {
+          const entries = entryList.getEntries();
+          const last = entries[entries.length - 1];
+          if (last) {
+            setMetrics((prev) => ({
+              ...prev,
+              lcp: Math.round(last.startTime),
+            }));
+          }
+        });
+        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+      } catch {
+        // Fallback silencioso
+      }
     }
 
     // 2. Observador de CLS (Cumulative Layout Shift)
     let clsObserver: PerformanceObserver | null = null;
-    try {
-      clsObserver = new PerformanceObserver((entryList) => {
-        let addedCls = 0;
-        for (const entry of entryList.getEntries()) {
-          const shift = entry as unknown as { hadRecentInput?: boolean; value?: number };
-          if (!shift.hadRecentInput && shift.value) {
-            addedCls += shift.value;
+    if (isSupported('layout-shift')) {
+      try {
+        clsObserver = new PerformanceObserver((entryList) => {
+          let addedCls = 0;
+          for (const entry of entryList.getEntries()) {
+            const shift = entry as unknown as { hadRecentInput?: boolean; value?: number };
+            if (!shift.hadRecentInput && shift.value) {
+              addedCls += shift.value;
+            }
           }
-        }
-        if (addedCls > 0) {
-          setMetrics((prev) => ({
-            ...prev,
-            cls: Number((prev.cls + addedCls).toFixed(4)),
-          }));
-        }
-      });
-      clsObserver.observe({ type: 'layout-shift', buffered: true });
-    } catch {
-      // Navegador sin soporte para CLS observer
+          if (addedCls > 0) {
+            setMetrics((prev) => ({
+              ...prev,
+              cls: Number((prev.cls + addedCls).toFixed(4)),
+            }));
+          }
+        });
+        clsObserver.observe({ type: 'layout-shift', buffered: true });
+      } catch {
+        // Fallback silencioso
+      }
     }
 
     // 3. Observador de TBT / Long Tasks (tareas > 50ms)
     let longTaskObserver: PerformanceObserver | null = null;
-    try {
-      longTaskObserver = new PerformanceObserver((entryList) => {
-        let addedBlocking = 0;
-        for (const entry of entryList.getEntries()) {
-          if (entry.duration > 50) {
-            addedBlocking += entry.duration - 50;
+    if (isSupported('longtask')) {
+      try {
+        longTaskObserver = new PerformanceObserver((entryList) => {
+          let addedBlocking = 0;
+          for (const entry of entryList.getEntries()) {
+            if (entry.duration > 50) {
+              addedBlocking += entry.duration - 50;
+            }
           }
-        }
-        if (addedBlocking > 0) {
-          setMetrics((prev) => ({
-            ...prev,
-            tbt: Math.round(prev.tbt + addedBlocking),
-          }));
-        }
-      });
-      longTaskObserver.observe({ type: 'longtask', buffered: true });
-    } catch {
-      // Navegador sin soporte para LongTask observer
+          if (addedBlocking > 0) {
+            setMetrics((prev) => ({
+              ...prev,
+              tbt: Math.round(prev.tbt + addedBlocking),
+            }));
+          }
+        });
+        longTaskObserver.observe({ type: 'longtask', buffered: true });
+      } catch {
+        // Fallback silencioso
+      }
     }
 
     // Evaluación inicial diferida para evitar cascading renders síncronos en el efecto

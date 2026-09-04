@@ -1,0 +1,15 @@
+# Adrián T. (0x3C0x33) - Portfolio Web XP
+
+> Portfolio interactivo con diseño retro de Windows XP desarrollado por Adrián T. Especialista en desarrollo web frontend y backend, administración de servidores (HomeLab / Proxmox) y software independiente con el sello HemoBrutal.
+
+## Enlaces e Información
+- [Inicio / Escritorio](https://attl.dev/): Experiencia completa del portfolio interactivo estilo Windows XP.
+- [Sobre Mí](https://attl.dev/): Perfil profesional, stack técnico (TypeScript, React, Node.js, Linux, Docker, Proxmox) y trayectoria.
+- [HemoBrutal Studio](https://attl.dev/): Sello de desarrollo independiente de software y herramientas de escritorio.
+- [HomeLab Server](https://attl.dev/): Especificaciones de infraestructura y servidor autohospedado DELL PowerEdge T320.
+- [GitHub](https://github.com/0x3C0x33): Repositorios de código fuente, proyectos abiertos y contribuciones.
+
+## Stack Tecnológico
+- Frontend: React 19, TypeScript, Vite, XP.css, W3C Performance APIs.
+- Servidores & DevOps: Debian GNU/Linux, Docker, Proxmox VE, Nginx, Cloudflare.
+
