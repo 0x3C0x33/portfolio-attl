@@ -106,7 +106,7 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     controls: [
       { key: 'Flechas', action: 'Moverse / Navegar menú' },
       { key: 'Ctrl', action: 'Golpe normal' },
-      { key: 'Espacio / Alt', action: 'Saltar' },
+      { key: 'Alt', action: 'Saltar' },
       { key: 'Shift', action: 'Poder especial' },
       { key: 'Intro', action: 'Seleccionar en menú / Pausa' },
       { key: 'Esc', action: 'Pausa' },
