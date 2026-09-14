@@ -1,5 +1,10 @@
 // src/types/programs.ts
 
+export interface ControlGuideItem {
+  key: string;
+  action: string;
+}
+
 export interface ProgramMenuItem {
   id: string;
   name: string;
@@ -10,6 +15,7 @@ export interface ProgramMenuItem {
   defaultHeight?: number;
   gameUrl?: string;
   backend?: 'dosbox' | 'dosboxX';
+  controls?: ControlGuideItem[];
 }
 
 export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
@@ -47,6 +53,13 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     defaultHeight: 520,
     gameUrl: '/games/Tyrian2000.jsdos',
     backend: 'dosbox',
+    controls: [
+      { key: 'Flechas', action: 'Mover nave' },
+      { key: 'Espacio / Ctrl', action: 'Disparo principal' },
+      { key: 'Alt', action: 'Arma secundaria' },
+      { key: 'Intro / P', action: 'Pausa' },
+      { key: 'Esc', action: 'Menú' },
+    ],
   },
   {
     id: 'ghinirun',
@@ -58,6 +71,11 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     defaultHeight: 520,
     gameUrl: '/games/ghinirun.jsdos?v=3',
     backend: 'dosboxX',
+    controls: [
+      { key: 'Flechas', action: 'Conducir (Acelerar, Frenar, Girar)' },
+      { key: 'Espacio', action: 'Freno de mano / Nitro' },
+      { key: 'Esc / P', action: 'Pausa / Menú' },
+    ],
   },
   {
     id: 'bblast',
@@ -69,6 +87,11 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     defaultHeight: 520,
     gameUrl: '/games/bblast.jsdos',
     backend: 'dosbox',
+    controls: [
+      { key: 'Flechas Izq / Der', action: 'Apuntar cañón' },
+      { key: 'Espacio', action: 'Disparar bola' },
+      { key: 'Esc / P', action: 'Pausa / Menú' },
+    ],
   },
   {
     id: 'beatsofrage',
@@ -80,6 +103,14 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     defaultHeight: 520,
     gameUrl: '/games/BeatsOfRage.jsdos',
     backend: 'dosboxX',
+    controls: [
+      { key: 'Flechas', action: 'Moverse / Navegar menú' },
+      { key: 'Ctrl', action: 'Golpe normal' },
+      { key: 'Espacio / Alt', action: 'Saltar' },
+      { key: 'Shift', action: 'Poder especial' },
+      { key: 'Intro', action: 'Seleccionar en menú / Pausa' },
+      { key: 'Esc', action: 'Pausa' },
+    ],
   },
   {
     id: 'minesweeper',

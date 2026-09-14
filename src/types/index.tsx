@@ -17,6 +17,6 @@ export interface WindowItem {
   isFocused: boolean;
 }
 
-export type { ProgramMenuItem } from './programs';
+export type { ProgramMenuItem, ControlGuideItem } from './programs';
 export { START_MENU_PROGRAMS } from './programs';
 

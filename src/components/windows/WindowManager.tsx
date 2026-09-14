@@ -135,6 +135,7 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
                 iconUrl={win.iconUrl}
                 description={prog.description}
                 backend={prog.backend}
+                controls={prog.controls}
               />
             ) : (
               <EmptyProgramWindow

@@ -1,5 +1,5 @@
-// src/components/windows/DosPlayerWindow.tsx
 import { useState, useEffect } from 'react';
+import type { ControlGuideItem } from '../../types';
 
 interface DosPlayerWindowProps {
   bundleUrl?: string;
@@ -7,6 +7,7 @@ interface DosPlayerWindowProps {
   iconUrl?: string;
   description?: string;
   backend?: 'dosbox' | 'dosboxX';
+  controls?: ControlGuideItem[];
 }
 
 export function DosPlayerWindow({
@@ -15,6 +16,7 @@ export function DosPlayerWindow({
   iconUrl = '/icons/Game Controller.webp',
   description,
   backend = 'dosbox',
+  controls,
 }: DosPlayerWindowProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -122,10 +124,20 @@ export function DosPlayerWindow({
               <div style={{ color: '#55ff55', fontWeight: 'bold', marginBottom: '4px' }}>
                 🎮 GUÍA DE CONTROLES:
               </div>
-              <div>• <strong>Flechas:</strong> Mover / Navegar</div>
-              <div>• <strong>Espacio / Intro:</strong> Acción principal / Disparo / Salto</div>
-              <div>• <strong>Ctrl / Alt:</strong> Acciones secundarias</div>
-              <div>• <strong>P / Esc:</strong> Pausa / Menú</div>
+              {controls && controls.length > 0 ? (
+                controls.map((c, i) => (
+                  <div key={i}>
+                    • <strong>{c.key}:</strong> {c.action}
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div>• <strong>Flechas:</strong> Mover / Navegar</div>
+                  <div>• <strong>Espacio / Intro:</strong> Acción principal / Disparo / Salto</div>
+                  <div>• <strong>Ctrl / Alt:</strong> Acciones secundarias</div>
+                  <div>• <strong>P / Esc:</strong> Pausa / Menú</div>
+                </>
+              )}
             </div>
 
             {/* Botón de inicio */}
