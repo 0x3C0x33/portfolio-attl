@@ -113,6 +113,22 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     ],
   },
   {
+    id: 'bap',
+    name: 'BAP!!!',
+    iconUrl: '/icons/games/bap.webp',
+    category: 'game',
+    description: 'MS-DOS Arcade • Breakout Clone • 86 KB',
+    defaultWidth: 660,
+    defaultHeight: 520,
+    gameUrl: '/games/bap.jsdos',
+    backend: 'dosbox',
+    controls: [
+      { key: 'Flechas / Ratón', action: 'Mover pala (paddle)' },
+      { key: 'Clic Izq / Espacio', action: 'Lanzar bola / Iniciar' },
+      { key: 'Esc / P', action: 'Pausa / Menú' },
+    ],
+  },
+  {
     id: 'minesweeper',
     name: 'Minesweeper',
     iconUrl: '/icons/Minesweeper.webp',
