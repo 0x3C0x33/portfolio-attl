@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MS-DOS Arcade Player</title>
+  <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css" />
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      overflow: hidden;
+    }
+    #dos-root {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="dos-root"></div>
+
+  <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
+  <script>
+    function startEmulator() {
+      const params = new URLSearchParams(window.location.search);
+      const bundle = params.get('bundle') || '/games/Tyrian2000.jsdos';
+      const backend = params.get('backend') || 'dosbox';
+      const root = document.getElementById('dos-root');
+
+      if (typeof Dos !== 'undefined' && root) {
+        try {
+          window.dosInstance = Dos(root, {
+            url: bundle,
+            autoStart: true,
+            kiosk: true,
+            backend: backend,
+            backendLocked: true,
+          });
+        } catch (e) {
+          console.error('Error inicializando js-dos:', e);
+        }
+      }
+    }
+
+    if (typeof Dos !== 'undefined') {
+      startEmulator();
+    } else {
+      window.addEventListener('load', startEmulator);
+    }
+  </script>
+</body>
+</html>

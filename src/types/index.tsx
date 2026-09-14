@@ -16,3 +16,7 @@ export interface WindowItem {
   isMinimized: boolean;
   isFocused: boolean;
 }
+
+export type { ProgramMenuItem } from './programs';
+export { START_MENU_PROGRAMS } from './programs';
+

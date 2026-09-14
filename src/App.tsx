@@ -8,7 +8,7 @@ import { WindowManager } from './components/windows/WindowManager';
 import { useWindowManager } from './hooks/useWindowManager';
 import { useBootSequence } from './hooks/useBootSequence';
 import { WALLPAPERS } from './types/wallpapers';
-import type { AppIcon, WindowItem } from './types';
+import { START_MENU_PROGRAMS, type AppIcon, type WindowItem } from './types';
 
 const INITIAL_WINDOWS: Record<string, WindowItem> = {
   about: {
@@ -51,6 +51,17 @@ const INITIAL_WINDOWS: Record<string, WindowItem> = {
     isMinimized: false,
     isFocused: false,
   },
+  ...START_MENU_PROGRAMS.reduce((acc, prog) => {
+    acc[prog.id] = {
+      id: prog.id,
+      title: prog.name,
+      iconUrl: prog.iconUrl,
+      isOpen: false,
+      isMinimized: false,
+      isFocused: false,
+    };
+    return acc;
+  }, {} as Record<string, WindowItem>),
 };
 
 export default function App() {
@@ -142,6 +153,7 @@ export default function App() {
         currentWallpaper={wallpaper}
         onSelectWallpaper={handleSelectWallpaper}
         onTurnOff={turnOff}
+        onOpenProgram={(id) => openWindow(id)}
       />
     </div>
   );

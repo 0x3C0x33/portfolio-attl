@@ -7,6 +7,9 @@ import { ServerWindow } from './ServerWindow';
 import { CreditsWindow } from './CreditsWindow';
 import { useState } from 'react';
 import { MyPageWindow } from './MyPageWindow';
+import { EmptyProgramWindow } from './EmptyProgramWindow';
+import { DosPlayerWindow } from './DosPlayerWindow';
+import { START_MENU_PROGRAMS } from '../../types';
 
 interface WindowManagerProps {
   windows: Record<string, WindowItem>;
@@ -90,18 +93,60 @@ export function WindowManager({ windows, onClose, onMinimize }: WindowManagerPro
         </Window>
       )}
 
-      <Window
-        title={windows['credits'].title}
-        iconUrl={windows['credits'].iconUrl}
-        isOpen={windows['credits'].isOpen}
-        isMinimized={windows['credits'].isMinimized}
-        onClose={() => onClose('credits')}
-        onMinimize={() => onMinimize('credits')}
-        defaultWidth={420}
-        defaultHeight={280}
-      >
-        <CreditsWindow />
-      </Window>
+      {windows['credits'] && (
+        <Window
+          title={windows['credits'].title}
+          iconUrl={windows['credits'].iconUrl}
+          isOpen={windows['credits'].isOpen}
+          isMinimized={windows['credits'].isMinimized}
+          onClose={() => onClose('credits')}
+          onMinimize={() => onMinimize('credits')}
+          zIndex={windowZIndexes['credits'] || 10}
+          onFocus={() => bringToFront('credits')}
+          defaultWidth={420}
+          defaultHeight={280}
+        >
+          <CreditsWindow />
+        </Window>
+      )}
+
+      {/* Ventanas de programas del Menú de Inicio */}
+      {START_MENU_PROGRAMS.map((prog) => {
+        const win = windows[prog.id];
+        if (!win) return null;
+        return (
+          <Window
+            key={prog.id}
+            title={win.title}
+            iconUrl={win.iconUrl}
+            isOpen={win.isOpen}
+            isMinimized={win.isMinimized}
+            onClose={() => onClose(prog.id)}
+            onMinimize={() => onMinimize(prog.id)}
+            zIndex={windowZIndexes[prog.id] || 10}
+            onFocus={() => bringToFront(prog.id)}
+            defaultWidth={prog.defaultWidth || 500}
+            defaultHeight={prog.defaultHeight || 380}
+          >
+            {prog.gameUrl ? (
+              <DosPlayerWindow
+                bundleUrl={prog.gameUrl}
+                title={win.title}
+                iconUrl={win.iconUrl}
+                description={prog.description}
+                backend={prog.backend}
+              />
+            ) : (
+              <EmptyProgramWindow
+                programId={prog.id}
+                title={win.title}
+                iconUrl={win.iconUrl}
+                onClose={() => onClose(prog.id)}
+              />
+            )}
+          </Window>
+        );
+      })}
     </>
   );
 }
