@@ -71,6 +71,17 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     backend: 'dosbox',
   },
   {
+    id: 'beatsofrage',
+    name: 'Beats of Rage',
+    iconUrl: '/icons/games/BeatsOfRage.webp',
+    category: 'game',
+    description: "Beat 'em Up • Senile Team • 56 MB",
+    defaultWidth: 660,
+    defaultHeight: 520,
+    gameUrl: '/games/BeatsOfRage.jsdos',
+    backend: 'dosboxX',
+  },
+  {
     id: 'minesweeper',
     name: 'Minesweeper',
     iconUrl: '/icons/Minesweeper.webp',

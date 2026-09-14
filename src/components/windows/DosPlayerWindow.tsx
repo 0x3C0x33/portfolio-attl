@@ -1,5 +1,5 @@
 // src/components/windows/DosPlayerWindow.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface DosPlayerWindowProps {
   bundleUrl?: string;
@@ -17,6 +17,22 @@ export function DosPlayerWindow({
   backend = 'dosbox',
 }: DosPlayerWindowProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Precarga silenciosa en segundo plano mientras el usuario lee los controles
+  useEffect(() => {
+    if (!bundleUrl) return;
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'fetch';
+    link.href = bundleUrl;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+    return () => {
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
+  }, [bundleUrl]);
 
   return (
     <div
