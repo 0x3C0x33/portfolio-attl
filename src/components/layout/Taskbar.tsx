@@ -15,6 +15,7 @@ interface TaskbarProps {
   currentWallpaper: string;
   onSelectWallpaper: (url: string) => void;
   onTurnOff?: () => void;
+  onOpenProgram?: (id: string) => void;
 }
 
 export function Taskbar({
@@ -24,6 +25,7 @@ export function Taskbar({
   currentWallpaper,
   onSelectWallpaper,
   onTurnOff,
+  onOpenProgram,
 }: TaskbarProps) {
   return (
     <footer
@@ -49,6 +51,7 @@ export function Taskbar({
         <StartMenu
           onLogOff={() => {}}
           onTurnOff={onTurnOff}
+          onOpenProgram={onOpenProgram}
         />
       </div>
 

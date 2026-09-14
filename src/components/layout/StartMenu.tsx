@@ -1,13 +1,21 @@
-// src/components/layout/StartMenu.tsx
 import { useState, useRef, useEffect } from "react";
 import "xp.css/dist/XP.css";
+import { ProgramMenuItem } from "../ui/ProgramMenuItem";
+import { START_MENU_PROGRAMS, type ProgramMenuItem as ProgramMenuItemType } from "../../types";
 
 interface StartMenuProps {
   onLogOff?: () => void;
   onTurnOff?: () => void;
+  onOpenProgram?: (id: string) => void;
+  programs?: ProgramMenuItemType[];
 }
 
-export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
+export function StartMenu({
+  onLogOff,
+  onTurnOff,
+  onOpenProgram,
+  programs = START_MENU_PROGRAMS,
+}: StartMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -112,7 +120,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
               minHeight: 0,
             }}
           >
-            {/* Columna Izquierda (Aplicaciones) */}
+            {/* Columna Izquierda (Aplicaciones / Programas) */}
             <div
               style={{
                 width: "50%",
@@ -123,8 +131,20 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
                 justifyContent: "space-between",
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                {/* Futuros programas / accesos */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "2px", overflowY: "auto" }}>
+                {programs
+                  .filter((p) => p.category !== 'game')
+                  .map((program) => (
+                    <ProgramMenuItem
+                      key={program.id}
+                      program={program}
+                      variant="left"
+                      onClick={() => {
+                        onOpenProgram?.(program.id);
+                        setIsOpen(false);
+                      }}
+                    />
+                  ))}
               </div>
 
               <div
@@ -153,7 +173,7 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
               </div>
             </div>
 
-            {/* Columna Derecha (Sistema) */}
+            {/* Columna Derecha (Juegos) */}
             <div
               style={{
                 width: "50%",
@@ -162,10 +182,23 @@ export function StartMenu({ onLogOff, onTurnOff }: StartMenuProps) {
                 padding: "8px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "4px",
+                gap: "2px",
+                overflowY: "auto",
               }}
             >
-              {/* Futuros accesos de sistema */}
+              {programs
+                .filter((p) => p.category === 'game')
+                .map((game) => (
+                  <ProgramMenuItem
+                    key={game.id}
+                    program={game}
+                    variant="right"
+                    onClick={() => {
+                      onOpenProgram?.(game.id);
+                      setIsOpen(false);
+                    }}
+                  />
+                ))}
             </div>
           </div>
 
