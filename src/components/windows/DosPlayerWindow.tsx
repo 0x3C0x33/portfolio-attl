@@ -7,6 +7,7 @@ interface DosPlayerWindowProps {
   iconUrl?: string;
   description?: string;
   backend?: 'dosbox' | 'dosboxX';
+  parts?: number;
   controls?: ControlGuideItem[];
 }
 
@@ -16,6 +17,7 @@ export function DosPlayerWindow({
   iconUrl = '/icons/Game Controller.webp',
   description,
   backend = 'dosbox',
+  parts,
   controls,
 }: DosPlayerWindowProps) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -23,18 +25,28 @@ export function DosPlayerWindow({
   // Precarga silenciosa en segundo plano mientras el usuario lee los controles
   useEffect(() => {
     if (!bundleUrl) return;
-    const link = document.createElement('link');
-    link.rel = 'prefetch';
-    link.as = 'fetch';
-    link.href = bundleUrl;
-    link.crossOrigin = 'anonymous';
-    document.head.appendChild(link);
+    const urlsToPrefetch = parts && parts > 1
+      ? Array.from({ length: parts }, (_, i) => `${bundleUrl}.part${i + 1}`)
+      : [bundleUrl];
+
+    const links = urlsToPrefetch.map(url => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.as = 'fetch';
+      link.href = url;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+      return link;
+    });
+
     return () => {
-      if (document.head.contains(link)) {
-        document.head.removeChild(link);
-      }
+      links.forEach(link => {
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+      });
     };
-  }, [bundleUrl]);
+  }, [bundleUrl, parts]);
 
   return (
     <div
@@ -170,7 +182,7 @@ export function DosPlayerWindow({
           </div>
         ) : (
           <iframe
-            src={`/emulator.html?bundle=${encodeURIComponent(bundleUrl)}&backend=${encodeURIComponent(backend)}`}
+            src={`/emulator.html?bundle=${encodeURIComponent(bundleUrl)}&backend=${encodeURIComponent(backend)}${parts ? `&parts=${encodeURIComponent(parts)}` : ''}`}
             title={title}
             style={{
               width: '100%',

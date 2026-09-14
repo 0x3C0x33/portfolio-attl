@@ -13,10 +13,47 @@
       padding: 0;
       background-color: #000000;
       overflow: hidden;
+      font-family: 'Courier New', monospace;
     }
     #dos-root {
       width: 100%;
       height: 100%;
+    }
+    #loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #33ff33;
+      text-shadow: 0 0 8px rgba(51, 255, 51, 0.5);
+      background-color: #0d0e12;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #1a221a;
+      border-top: 3px solid #33ff33;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loader-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .loader-status {
+      font-size: 12px;
+      color: #a0ffa0;
     }
   </style>
 </head>
@@ -25,16 +62,73 @@
 
   <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
   <script>
-    function startEmulator() {
+    async function resolveBundleUrl(bundle, parts, root) {
+      if (!parts || parts <= 1) {
+        return bundle;
+      }
+
+      root.innerHTML = `
+        <div id="loader-container">
+          <div class="spinner"></div>
+          <div class="loader-title">DESCARGANDO JUEGO MULTIPARTE</div>
+          <div id="loader-status" class="loader-status">Iniciando descarga de ${parts} partes en paralelo...</div>
+        </div>
+      `;
+
+      const statusEl = document.getElementById('loader-status');
+      const updateStatus = (text) => {
+        if (statusEl) statusEl.textContent = text;
+      };
+
+      let completed = 0;
+      const partUrls = [];
+      for (let i = 1; i <= parts; i++) {
+        partUrls.push(`${bundle}.part${i}`);
+      }
+
+      const fetchPart = async (url, idx) => {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`Error HTTP ${res.status} al descargar ${url}`);
+        }
+        const buffer = await res.arrayBuffer();
+        completed++;
+        updateStatus(`Descargando fragmentos: ${completed} de ${parts} completados...`);
+        return { idx, buffer };
+      };
+
+      try {
+        const results = await Promise.all(partUrls.map((url, idx) => fetchPart(url, idx)));
+        results.sort((a, b) => a.idx - b.idx);
+        const buffers = results.map(r => r.buffer);
+
+        updateStatus('Ensamblando paquete en memoria...');
+        const blob = new Blob(buffers, { type: 'application/octet-stream' });
+        return URL.createObjectURL(blob);
+      } catch (err) {
+        console.error('Error ensamblando partes del juego:', err);
+        root.innerHTML = `
+          <div id="loader-container" style="color: #ff4444;">
+            <div style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">ERROR DE DESCARGA</div>
+            <div style="font-size: 12px;">${err.message || 'No se pudieron descargar todas las partes.'}</div>
+          </div>
+        `;
+        throw err;
+      }
+    }
+
+    async function startEmulator() {
       const params = new URLSearchParams(window.location.search);
       const bundle = params.get('bundle') || '/games/Tyrian2000.jsdos';
+      const parts = parseInt(params.get('parts') || '0', 10);
       const backend = params.get('backend') || 'dosbox';
       const root = document.getElementById('dos-root');
 
       if (typeof Dos !== 'undefined' && root) {
         try {
+          const finalUrl = await resolveBundleUrl(bundle, parts, root);
           window.dosInstance = Dos(root, {
-            url: bundle,
+            url: finalUrl,
             autoStart: true,
             kiosk: true,
             backend: backend,

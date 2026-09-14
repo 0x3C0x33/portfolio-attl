@@ -15,6 +15,7 @@ export interface ProgramMenuItem {
   defaultHeight?: number;
   gameUrl?: string;
   backend?: 'dosbox' | 'dosboxX';
+  parts?: number;
   controls?: ControlGuideItem[];
 }
 
@@ -101,7 +102,8 @@ export const START_MENU_PROGRAMS: ProgramMenuItem[] = [
     description: "Beat 'em Up • Senile Team • 56 MB",
     defaultWidth: 660,
     defaultHeight: 520,
-    gameUrl: '/games/BeatsOfRage.jsdos',
+    gameUrl: '/games/BeatsOfRage',
+    parts: 3,
     backend: 'dosboxX',
     controls: [
       { key: 'Flechas', action: 'Moverse / Navegar menú' },
